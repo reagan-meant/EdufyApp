@@ -1753,6 +1753,19 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $MarksTable get marks => _marks ??= $MarksTable(this);
   $SubjectsTable _subjects;
   $SubjectsTable get subjects => _subjects ??= $SubjectsTable(this);
+  StudentDao _studentDao;
+  StudentDao get studentDao => _studentDao ??= StudentDao(this as AppDatabase);
+  ClassesDao _classesDao;
+  ClassesDao get classesDao => _classesDao ??= ClassesDao(this as AppDatabase);
+  MarksDao _marksDao;
+  MarksDao get marksDao => _marksDao ??= MarksDao(this as AppDatabase);
+  SubjectDao _subjectDao;
+  SubjectDao get subjectDao => _subjectDao ??= SubjectDao(this as AppDatabase);
+  QuestionDao _questionDao;
+  QuestionDao get questionDao =>
+      _questionDao ??= QuestionDao(this as AppDatabase);
+  AnswersDao _answersDao;
+  AnswersDao get answersDao => _answersDao ??= AnswersDao(this as AppDatabase);
   @override
   List<TableInfo> get allTables =>
       [questions, answers, students, classes, marks, subjects];

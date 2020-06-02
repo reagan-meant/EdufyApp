@@ -1,8 +1,9 @@
+import 'package:edufy/data/dao/AnswerDao.dart';
 import 'package:edufy/data/dao/StudentDao.dart';
 import 'package:edufy/data/dao/ClassesDao.dart';
 import 'package:edufy/data/dao/MarksDao.dart';
 import 'package:edufy/data/dao/QuestionsDao.dart';
-import 'package:edufy/data/dao/AnswersDao.dart';
+import 'package:edufy/data/dao/SubjectsDao.dart';
 
 import 'package:edufy/data/models/Answers.dart';
 import 'package:edufy/data/models/Classes.dart';
@@ -17,7 +18,7 @@ import 'package:moor_flutter/moor_flutter.dart';
 part 'moor_db.g.dart';
 
 // This annotation tells the code generator which tables this DB works with
-@UseMoor(tables: [Questions, Answers,Students,Classes,Marks,Subjects],daos: [])
+@UseMoor(tables: [Questions, Answers,Students,Classes,Marks,Subjects],daos: [StudentDao,ClassesDao,MarksDao,SubjectDao,MarksDao,QuestionDao,AnswersDao])
 //StudentDao,ClassesDao,MarksDao,SubjectsDao,MarksDao,QuestionsDao,AnswersDao
 // _$AppDatabase is the name of the generated class
 class AppDatabase extends _$AppDatabase {
@@ -34,18 +35,6 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
-  /*
-  // All tables have getters in the generated class - we can select the tasks table
-  Future<List<Subject>> getAllSubject() => select(subjects).get();
-
-  // Moor supports Streams which emit elements when the watched data changes
-  Stream<List<Subject>> watchAllSubject() => select(subjects).watch();
-
-  Future insertTask(Subject task) => into(subjects).insert(task);
-
-  // Updates a Task with a matching primary key
-  Future updateTask(Subject task) => update(subjects).replace(task);
-
-  Future deleteTask(Subject task) => delete(subjects).delete(task);
-*/
+ 
 }
+
