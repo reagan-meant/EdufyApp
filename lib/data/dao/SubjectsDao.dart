@@ -18,4 +18,6 @@ class SubjectDao extends DatabaseAccessor<AppDatabase> with _$SubjectDaoMixin {
   Future insertSubject(Insertable<Subject> subject) => into(subjects).insert(subject);
 Future updateSubject(Insertable<Subject> subject) => update(subjects).replace(subject);
 Future deleteSubject(Insertable<Subject> subject) => delete(subjects).delete(subject);
+
+
  }

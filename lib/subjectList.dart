@@ -1,11 +1,13 @@
+import 'dart:io';
+import 'package:edufy/subjects.dart';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart';
 
-import 'package:edufy/bloc/subjectsBloc.dart';
-import 'package:edufy/data/moor_db.dart';
-import 'package:edufy/events/subject/set_subject_event.dart';
-import 'package:edufy/subject_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SubjectPage extends StatefulWidget {
   @override
@@ -16,9 +18,7 @@ class _subjectListState extends State<SubjectPage> {
   @override
   void initState() {
     super.initState();
-    AppDatabase().subjectDao.getAllSubjects().then((subjectList) {
-      BlocProvider.of<SubjectBloc>(context).add(setSubjects(subjectList));
-    });
+    
   }
 
   @override
@@ -27,37 +27,45 @@ class _subjectListState extends State<SubjectPage> {
       appBar: AppBar(
         title: Text('Edufy'),
       ),
-      body: Container(
-        child: BlocConsumer<SubjectBloc, List<Subject>>(
-            builder: (context, subjectList) {
-              return ListView.separated(
-                  itemBuilder: (BuildContext context, int index) {
-
-                    Subject subject = subjectList[index];
-                    return ListTile(
-                        title: Text(subject.subject_name,
-                            style: TextStyle(fontSize: 30)),
-                        subtitle: Text(
-                          "Subject: ${subject.subject_name}",
-                          style: TextStyle(fontSize: 20),
-                        ));
-
-                    //onTap: () => showFoodDialog(context, food, index));
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(color: Colors.black),
-                  itemCount: subjectList.length);
-            },
-            listener: (BuildContext context, foodList) {}),
+      body: Center(
+        child: Text('Home page'),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => subjectForm()),
-        ),
-      
-      )
+      floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22),
+          backgroundColor: Color(0xFF801E48),
+          visible: true,
+          curve: Curves.bounceIn,
+          children: [
+            // FAB 1
+            SpeedDialChild(
+                child: Icon(Icons.assignment_turned_in),
+                backgroundColor: Color(0xFF801E48),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => subjectView()));
+                },
+                label: 'Next',
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16.0),
+                labelBackgroundColor: Color(0xFF801E48)),
+            // FAB 2 initialise db
+            SpeedDialChild(
+                child: Icon(Icons.assignment_turned_in),
+                backgroundColor: Color(0xFF801E48),
+                onTap: () async {
+                },
+                label: 'Start DB',
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16.0),
+                labelBackgroundColor: Color(0xFF801E48)),
+          ]),
     );
   }
 }

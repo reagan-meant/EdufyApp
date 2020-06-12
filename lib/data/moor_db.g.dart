@@ -1224,7 +1224,11 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
 class Classe extends DataClass implements Insertable<Classe> {
   final int class_id;
   final String class_name;
-  Classe({@required this.class_id, @required this.class_name});
+  final int level_id;
+  Classe(
+      {@required this.class_id,
+      @required this.class_name,
+      @required this.level_id});
   factory Classe.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -1235,6 +1239,8 @@ class Classe extends DataClass implements Insertable<Classe> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}class_id']),
       class_name: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}class_name']),
+      level_id:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}level_id']),
     );
   }
   factory Classe.fromJson(Map<String, dynamic> json,
@@ -1242,6 +1248,7 @@ class Classe extends DataClass implements Insertable<Classe> {
     return Classe(
       class_id: serializer.fromJson<int>(json['class_id']),
       class_name: serializer.fromJson<String>(json['class_name']),
+      level_id: serializer.fromJson<int>(json['level_id']),
     );
   }
   @override
@@ -1250,6 +1257,7 @@ class Classe extends DataClass implements Insertable<Classe> {
     return {
       'class_id': serializer.toJson<int>(class_id),
       'class_name': serializer.toJson<String>(class_name),
+      'level_id': serializer.toJson<int>(level_id),
     };
   }
 
@@ -1262,43 +1270,54 @@ class Classe extends DataClass implements Insertable<Classe> {
       class_name: class_name == null && nullToAbsent
           ? const Value.absent()
           : Value(class_name),
+      level_id: level_id == null && nullToAbsent
+          ? const Value.absent()
+          : Value(level_id),
     ) as T;
   }
 
-  Classe copyWith({int class_id, String class_name}) => Classe(
+  Classe copyWith({int class_id, String class_name, int level_id}) => Classe(
         class_id: class_id ?? this.class_id,
         class_name: class_name ?? this.class_name,
+        level_id: level_id ?? this.level_id,
       );
   @override
   String toString() {
     return (StringBuffer('Classe(')
           ..write('class_id: $class_id, ')
-          ..write('class_name: $class_name')
+          ..write('class_name: $class_name, ')
+          ..write('level_id: $level_id')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(class_id.hashCode, class_name.hashCode));
+  int get hashCode => $mrjf(
+      $mrjc(class_id.hashCode, $mrjc(class_name.hashCode, level_id.hashCode)));
   @override
   bool operator ==(other) =>
       identical(this, other) ||
       (other is Classe &&
           other.class_id == class_id &&
-          other.class_name == class_name);
+          other.class_name == class_name &&
+          other.level_id == level_id);
 }
 
 class ClassesCompanion extends UpdateCompanion<Classe> {
   final Value<int> class_id;
   final Value<String> class_name;
+  final Value<int> level_id;
   const ClassesCompanion({
     this.class_id = const Value.absent(),
     this.class_name = const Value.absent(),
+    this.level_id = const Value.absent(),
   });
-  ClassesCompanion copyWith({Value<int> class_id, Value<String> class_name}) {
+  ClassesCompanion copyWith(
+      {Value<int> class_id, Value<String> class_name, Value<int> level_id}) {
     return ClassesCompanion(
       class_id: class_id ?? this.class_id,
       class_name: class_name ?? this.class_name,
+      level_id: level_id ?? this.level_id,
     );
   }
 }
@@ -1325,8 +1344,20 @@ class $ClassesTable extends Classes with TableInfo<$ClassesTable, Classe> {
         minTextLength: 1, maxTextLength: 255);
   }
 
+  final VerificationMeta _level_idMeta = const VerificationMeta('level_id');
+  GeneratedIntColumn _level_id;
   @override
-  List<GeneratedColumn> get $columns => [class_id, class_name];
+  GeneratedIntColumn get level_id => _level_id ??= _constructLevelId();
+  GeneratedIntColumn _constructLevelId() {
+    return GeneratedIntColumn(
+      'level_id',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [class_id, class_name, level_id];
   @override
   $ClassesTable get asDslTable => this;
   @override
@@ -1349,6 +1380,12 @@ class $ClassesTable extends Classes with TableInfo<$ClassesTable, Classe> {
     } else if (class_name.isRequired && isInserting) {
       context.missing(_class_nameMeta);
     }
+    if (d.level_id.present) {
+      context.handle(_level_idMeta,
+          level_id.isAcceptableValue(d.level_id.value, _level_idMeta));
+    } else if (level_id.isRequired && isInserting) {
+      context.missing(_level_idMeta);
+    }
     return context;
   }
 
@@ -1368,6 +1405,9 @@ class $ClassesTable extends Classes with TableInfo<$ClassesTable, Classe> {
     }
     if (d.class_name.present) {
       map['class_name'] = Variable<String, StringType>(d.class_name.value);
+    }
+    if (d.level_id.present) {
+      map['level_id'] = Variable<int, IntType>(d.level_id.value);
     }
     return map;
   }
@@ -1739,6 +1779,360 @@ class $SubjectsTable extends Subjects with TableInfo<$SubjectsTable, Subject> {
   }
 }
 
+class Term extends DataClass implements Insertable<Term> {
+  final int term_id;
+  final String term_name;
+  final int class_id;
+  Term(
+      {@required this.term_id,
+      @required this.term_name,
+      @required this.class_id});
+  factory Term.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return Term(
+      term_id:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}term_id']),
+      term_name: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}term_name']),
+      class_id:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}class_id']),
+    );
+  }
+  factory Term.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer = const ValueSerializer.defaults()}) {
+    return Term(
+      term_id: serializer.fromJson<int>(json['term_id']),
+      term_name: serializer.fromJson<String>(json['term_name']),
+      class_id: serializer.fromJson<int>(json['class_id']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson(
+      {ValueSerializer serializer = const ValueSerializer.defaults()}) {
+    return {
+      'term_id': serializer.toJson<int>(term_id),
+      'term_name': serializer.toJson<String>(term_name),
+      'class_id': serializer.toJson<int>(class_id),
+    };
+  }
+
+  @override
+  T createCompanion<T extends UpdateCompanion<Term>>(bool nullToAbsent) {
+    return TermsCompanion(
+      term_id: term_id == null && nullToAbsent
+          ? const Value.absent()
+          : Value(term_id),
+      term_name: term_name == null && nullToAbsent
+          ? const Value.absent()
+          : Value(term_name),
+      class_id: class_id == null && nullToAbsent
+          ? const Value.absent()
+          : Value(class_id),
+    ) as T;
+  }
+
+  Term copyWith({int term_id, String term_name, int class_id}) => Term(
+        term_id: term_id ?? this.term_id,
+        term_name: term_name ?? this.term_name,
+        class_id: class_id ?? this.class_id,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Term(')
+          ..write('term_id: $term_id, ')
+          ..write('term_name: $term_name, ')
+          ..write('class_id: $class_id')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf(
+      $mrjc(term_id.hashCode, $mrjc(term_name.hashCode, class_id.hashCode)));
+  @override
+  bool operator ==(other) =>
+      identical(this, other) ||
+      (other is Term &&
+          other.term_id == term_id &&
+          other.term_name == term_name &&
+          other.class_id == class_id);
+}
+
+class TermsCompanion extends UpdateCompanion<Term> {
+  final Value<int> term_id;
+  final Value<String> term_name;
+  final Value<int> class_id;
+  const TermsCompanion({
+    this.term_id = const Value.absent(),
+    this.term_name = const Value.absent(),
+    this.class_id = const Value.absent(),
+  });
+  TermsCompanion copyWith(
+      {Value<int> term_id, Value<String> term_name, Value<int> class_id}) {
+    return TermsCompanion(
+      term_id: term_id ?? this.term_id,
+      term_name: term_name ?? this.term_name,
+      class_id: class_id ?? this.class_id,
+    );
+  }
+}
+
+class $TermsTable extends Terms with TableInfo<$TermsTable, Term> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $TermsTable(this._db, [this._alias]);
+  final VerificationMeta _term_idMeta = const VerificationMeta('term_id');
+  GeneratedIntColumn _term_id;
+  @override
+  GeneratedIntColumn get term_id => _term_id ??= _constructTermId();
+  GeneratedIntColumn _constructTermId() {
+    return GeneratedIntColumn('term_id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _term_nameMeta = const VerificationMeta('term_name');
+  GeneratedTextColumn _term_name;
+  @override
+  GeneratedTextColumn get term_name => _term_name ??= _constructTermName();
+  GeneratedTextColumn _constructTermName() {
+    return GeneratedTextColumn('term_name', $tableName, false,
+        minTextLength: 1, maxTextLength: 255);
+  }
+
+  final VerificationMeta _class_idMeta = const VerificationMeta('class_id');
+  GeneratedIntColumn _class_id;
+  @override
+  GeneratedIntColumn get class_id => _class_id ??= _constructClassId();
+  GeneratedIntColumn _constructClassId() {
+    return GeneratedIntColumn(
+      'class_id',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [term_id, term_name, class_id];
+  @override
+  $TermsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'terms';
+  @override
+  final String actualTableName = 'terms';
+  @override
+  VerificationContext validateIntegrity(TermsCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.term_id.present) {
+      context.handle(_term_idMeta,
+          term_id.isAcceptableValue(d.term_id.value, _term_idMeta));
+    } else if (term_id.isRequired && isInserting) {
+      context.missing(_term_idMeta);
+    }
+    if (d.term_name.present) {
+      context.handle(_term_nameMeta,
+          term_name.isAcceptableValue(d.term_name.value, _term_nameMeta));
+    } else if (term_name.isRequired && isInserting) {
+      context.missing(_term_nameMeta);
+    }
+    if (d.class_id.present) {
+      context.handle(_class_idMeta,
+          class_id.isAcceptableValue(d.class_id.value, _class_idMeta));
+    } else if (class_id.isRequired && isInserting) {
+      context.missing(_class_idMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {term_id};
+  @override
+  Term map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Term.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(TermsCompanion d) {
+    final map = <String, Variable>{};
+    if (d.term_id.present) {
+      map['term_id'] = Variable<int, IntType>(d.term_id.value);
+    }
+    if (d.term_name.present) {
+      map['term_name'] = Variable<String, StringType>(d.term_name.value);
+    }
+    if (d.class_id.present) {
+      map['class_id'] = Variable<int, IntType>(d.class_id.value);
+    }
+    return map;
+  }
+
+  @override
+  $TermsTable createAlias(String alias) {
+    return $TermsTable(_db, alias);
+  }
+}
+
+class Level extends DataClass implements Insertable<Level> {
+  final int level_id;
+  final String level_name;
+  Level({@required this.level_id, @required this.level_name});
+  factory Level.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return Level(
+      level_id:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}level_id']),
+      level_name: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}level_name']),
+    );
+  }
+  factory Level.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer = const ValueSerializer.defaults()}) {
+    return Level(
+      level_id: serializer.fromJson<int>(json['level_id']),
+      level_name: serializer.fromJson<String>(json['level_name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson(
+      {ValueSerializer serializer = const ValueSerializer.defaults()}) {
+    return {
+      'level_id': serializer.toJson<int>(level_id),
+      'level_name': serializer.toJson<String>(level_name),
+    };
+  }
+
+  @override
+  T createCompanion<T extends UpdateCompanion<Level>>(bool nullToAbsent) {
+    return LevelsCompanion(
+      level_id: level_id == null && nullToAbsent
+          ? const Value.absent()
+          : Value(level_id),
+      level_name: level_name == null && nullToAbsent
+          ? const Value.absent()
+          : Value(level_name),
+    ) as T;
+  }
+
+  Level copyWith({int level_id, String level_name}) => Level(
+        level_id: level_id ?? this.level_id,
+        level_name: level_name ?? this.level_name,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Level(')
+          ..write('level_id: $level_id, ')
+          ..write('level_name: $level_name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(level_id.hashCode, level_name.hashCode));
+  @override
+  bool operator ==(other) =>
+      identical(this, other) ||
+      (other is Level &&
+          other.level_id == level_id &&
+          other.level_name == level_name);
+}
+
+class LevelsCompanion extends UpdateCompanion<Level> {
+  final Value<int> level_id;
+  final Value<String> level_name;
+  const LevelsCompanion({
+    this.level_id = const Value.absent(),
+    this.level_name = const Value.absent(),
+  });
+  LevelsCompanion copyWith({Value<int> level_id, Value<String> level_name}) {
+    return LevelsCompanion(
+      level_id: level_id ?? this.level_id,
+      level_name: level_name ?? this.level_name,
+    );
+  }
+}
+
+class $LevelsTable extends Levels with TableInfo<$LevelsTable, Level> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $LevelsTable(this._db, [this._alias]);
+  final VerificationMeta _level_idMeta = const VerificationMeta('level_id');
+  GeneratedIntColumn _level_id;
+  @override
+  GeneratedIntColumn get level_id => _level_id ??= _constructLevelId();
+  GeneratedIntColumn _constructLevelId() {
+    return GeneratedIntColumn('level_id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _level_nameMeta = const VerificationMeta('level_name');
+  GeneratedTextColumn _level_name;
+  @override
+  GeneratedTextColumn get level_name => _level_name ??= _constructLevelName();
+  GeneratedTextColumn _constructLevelName() {
+    return GeneratedTextColumn('level_name', $tableName, false,
+        minTextLength: 1, maxTextLength: 255);
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [level_id, level_name];
+  @override
+  $LevelsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'levels';
+  @override
+  final String actualTableName = 'levels';
+  @override
+  VerificationContext validateIntegrity(LevelsCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.level_id.present) {
+      context.handle(_level_idMeta,
+          level_id.isAcceptableValue(d.level_id.value, _level_idMeta));
+    } else if (level_id.isRequired && isInserting) {
+      context.missing(_level_idMeta);
+    }
+    if (d.level_name.present) {
+      context.handle(_level_nameMeta,
+          level_name.isAcceptableValue(d.level_name.value, _level_nameMeta));
+    } else if (level_name.isRequired && isInserting) {
+      context.missing(_level_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {level_id};
+  @override
+  Level map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Level.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(LevelsCompanion d) {
+    final map = <String, Variable>{};
+    if (d.level_id.present) {
+      map['level_id'] = Variable<int, IntType>(d.level_id.value);
+    }
+    if (d.level_name.present) {
+      map['level_name'] = Variable<String, StringType>(d.level_name.value);
+    }
+    return map;
+  }
+
+  @override
+  $LevelsTable createAlias(String alias) {
+    return $LevelsTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(const SqlTypeSystem.withDefaults(), e);
   $QuestionsTable _questions;
@@ -1753,6 +2147,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $MarksTable get marks => _marks ??= $MarksTable(this);
   $SubjectsTable _subjects;
   $SubjectsTable get subjects => _subjects ??= $SubjectsTable(this);
+  $TermsTable _terms;
+  $TermsTable get terms => _terms ??= $TermsTable(this);
+  $LevelsTable _levels;
+  $LevelsTable get levels => _levels ??= $LevelsTable(this);
   StudentDao _studentDao;
   StudentDao get studentDao => _studentDao ??= StudentDao(this as AppDatabase);
   ClassesDao _classesDao;
@@ -1761,12 +2159,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   MarksDao get marksDao => _marksDao ??= MarksDao(this as AppDatabase);
   SubjectDao _subjectDao;
   SubjectDao get subjectDao => _subjectDao ??= SubjectDao(this as AppDatabase);
+  MarksDao _marksDao;
+  MarksDao get marksDao => _marksDao ??= MarksDao(this as AppDatabase);
   QuestionDao _questionDao;
   QuestionDao get questionDao =>
       _questionDao ??= QuestionDao(this as AppDatabase);
   AnswersDao _answersDao;
   AnswersDao get answersDao => _answersDao ??= AnswersDao(this as AppDatabase);
+  TermsDao _termsDao;
+  TermsDao get termsDao => _termsDao ??= TermsDao(this as AppDatabase);
+  LevelsDao _levelsDao;
+  LevelsDao get levelsDao => _levelsDao ??= LevelsDao(this as AppDatabase);
   @override
   List<TableInfo> get allTables =>
-      [questions, answers, students, classes, marks, subjects];
+      [questions, answers, students, classes, marks, subjects, terms, levels];
 }

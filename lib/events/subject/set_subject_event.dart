@@ -1,4 +1,3 @@
-import 'package:edufy/data/models/Subjects.dart';
 import 'package:edufy/data/moor_db.dart';
 import 'package:edufy/events/edufy_event.dart';
 
