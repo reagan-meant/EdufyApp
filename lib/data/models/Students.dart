@@ -12,4 +12,6 @@ class Students extends Table {
   TextColumn get student_username => text().withLength(min: 1, max: 255)();
   TextColumn get student_password => text().withLength(min: 1, max: 255)();
   IntColumn get class_id => integer()();
+
+
 }

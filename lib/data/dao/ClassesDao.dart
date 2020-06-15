@@ -15,6 +15,10 @@ class ClassesDao extends DatabaseAccessor<AppDatabase> with _$ClassesDaoMixin {
 
    Future<List<Classe>> getAllClasses() => select(classes).get();
   Stream<List<Classe>> watchAllClasses() => select(classes).watch();
+    Stream<List<Classe>> watchClassesByLevel(int level) { 
+     return  (select(classes)..where((c)=>c.class_id.equals(level))).watch(); 
+      }
+
   Future insertTask(Insertable<Classe> classe) => into(classes).insert(classe);
 Future updateTask(Insertable<Classe> classe) => update(classes).replace(classe);
 Future deleteTask(Insertable<Classe> classe) => delete(classes).delete(classe); 

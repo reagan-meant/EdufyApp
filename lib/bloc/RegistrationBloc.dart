@@ -1,5 +1,6 @@
 import 'package:edufy/data/moor_db.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:moor_flutter/moor_flutter.dart';
 
 class RegistrationBloc extends FormBloc<String, String> {
   final firstname = TextFieldBloc(
@@ -46,14 +47,14 @@ class RegistrationBloc extends FormBloc<String, String> {
 
   @override
   void onSubmitting() {
-    Student student = new Student(
-        student_fname: firstname.value,
-        student_lname: lastname.value,
-        student_mname: middlename.value,
-        student_email: email.value,
-        student_username: username.value,
-        student_password: password.value,
-        class_id: int.parse(classId.value));
+    final student = new StudentsCompanion(
+        student_fname: Value(firstname.value),
+        student_lname: Value(lastname.value),
+        student_mname: Value(middlename.value),
+        student_email: Value(email.value),
+        student_username: Value(username.value),
+        student_password: Value(password.value),
+        class_id: Value(int.parse(classId.value)));
     AppDatabase().studentDao.insertStudent(student);
     emitSuccess();
   }

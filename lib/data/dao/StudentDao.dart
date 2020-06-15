@@ -1,6 +1,5 @@
 
 import 'package:edufy/data/models/Students.dart';
-import 'package:edufy/data/models/Students.dart';
 import 'package:edufy/data/moor_db.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_flutter/moor_flutter.dart';
@@ -16,7 +15,7 @@ class StudentDao extends DatabaseAccessor<AppDatabase> with _$StudentDaoMixin {
 
   Future<List<Student>> getAllStudents() => select(students).get();
   Stream<List<Student>> watchAllStudents() => select(students).watch();
-  Future insertStudent(Insertable<Student> student) => into(students).insert(student);
+  Future insertStudent(StudentsCompanion student) => into(students).insert(student);
 Future updateStudent(Insertable<Student> student) => update(students).replace(student);
 Future deleteStudent(Insertable<Student> student) => delete(students).delete(student);
 

@@ -25,8 +25,11 @@ class LoginBloc extends FormBloc<String, String> {
     String studentUsername = username.value;
     //String student_password = password.value;
 
-    List<Student> students =
-        await AppDatabase().studentDao.finduserByUsername(studentUsername);
+    List<Student> students =  await AppDatabase().studentDao.getAllStudents();
+
+        //await AppDatabase().studentDao.finduserByUsername(studentUsername);
+        print('the number of students is ');
+        print( students);
 emitSuccess();
  
 /* 

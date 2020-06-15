@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:sqflite/sqflite.dart';
-
+/*
 Future<List<Object>> databaseSetup() async{
   final input = new File('classes.csv').openRead();
   final fields = await input
@@ -13,7 +13,7 @@ Future<List<Object>> databaseSetup() async{
       .toList();
   return fields;
 }
-/* 
+ 
 Database database = await openDatabase(path, version: 1,
     onCreate: (Database db, int version) async {
   await db.execute(

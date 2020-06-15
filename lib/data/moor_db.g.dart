@@ -2159,8 +2159,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   MarksDao get marksDao => _marksDao ??= MarksDao(this as AppDatabase);
   SubjectDao _subjectDao;
   SubjectDao get subjectDao => _subjectDao ??= SubjectDao(this as AppDatabase);
-  MarksDao _marksDao;
-  MarksDao get marksDao => _marksDao ??= MarksDao(this as AppDatabase);
   QuestionDao _questionDao;
   QuestionDao get questionDao =>
       _questionDao ??= QuestionDao(this as AppDatabase);

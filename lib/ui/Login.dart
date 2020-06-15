@@ -1,11 +1,15 @@
 import 'package:edufy/bloc/LoginBloc.dart';
-import 'package:edufy/subjects.dart';
-import 'package:edufy/ui/Questions.dart';
+import 'package:edufy/data/models/Levels.dart';
+import 'package:edufy/data/moor_db.dart';
+import 'package:edufy/ui/Level.dart';
+import 'package:edufy/ui/Subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 
 class Login extends StatelessWidget {
+
+  //Map data1;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -25,9 +29,14 @@ class Login extends StatelessWidget {
                 },
                 onSuccess: (context, state) {
                   LoadingDialog.hide(context);
-
+                  Map data1 ={"name":"jean","sex":"female"};
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => questions())); //change this redirect
+                      builder: (_) => LevelPage(),
+                      settings: RouteSettings(
+              arguments: data1,
+                      ),
+                      )); 
+                      //change this redirect
                 },
                 onFailure: (context, state) {
                   LoadingDialog.hide(context);
