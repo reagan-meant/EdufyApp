@@ -2,6 +2,7 @@ import 'package:edufy/bloc/level/level_bloc.dart';
 import 'package:edufy/data/models/Levels.dart';
 import 'package:edufy/data/moor_db.dart';
 import 'package:edufy/ui/Login.dart';
+import 'package:edufy/ui/Question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,24 +29,33 @@ class PaperPageState extends State<PaperPage>{
         title: Text('Papers'),
       ),
       body: StreamBuilder(
-          stream: AppDatabase().classesDao.watchClassesByLevel(data["classId"]),
-          builder: (context, AsyncSnapshot<List<Classe>> snapshot) {
-            final classes = snapshot.data ?? List();
+          stream: AppDatabase().questionDao.watchPaperByClassAndSubject(data["classId"],data["subjectId"]),
+          builder: (context, AsyncSnapshot<List<Question>> snapshot) {
+            final questions = snapshot.data ?? List();
 
+            Set paper_number = new Set();
+
+            questions.forEach((q){
+              paper_number.add(q.paper_number);
+            });
+            
             return ListView.builder(
-                itemCount: classes.length,
+                itemCount: paper_number.length,
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
                       onTap: () {
+                        data.addAll(
+                           {"paperNumber":paper_number.elementAt(index)}
+                        );
 
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => Login(),
-                      settings: RouteSettings(arguments: classes[index],)
+                      builder: (_) => QuestionPage(),
+                      settings: RouteSettings(arguments: data)
                       
                       ));
                       },
-                      title: Text('${classes[index].class_name}'),
+                      title: Text('${paper_number.elementAt(index)}'),
                     ),
                   );
                 });

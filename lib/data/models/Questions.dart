@@ -14,6 +14,7 @@ class Questions extends Table {
   IntColumn get term_id => integer()();
   IntColumn get correct_option => integer()();
   IntColumn get answer_id => integer()();
+  IntColumn get paper_number => integer()();
   IntColumn get subject_id => integer()();
   IntColumn get answered => integer()();
   IntColumn get times_correct => integer()();

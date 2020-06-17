@@ -15,6 +15,7 @@ class SubjectDao extends DatabaseAccessor<AppDatabase> with _$SubjectDaoMixin {
 
    Future<List<Subject>> getAllSubjects() => select(subjects).get();
   Stream<List<Subject>> watchAllSubjects() => select(subjects).watch();
+  
   Stream<List<Subject>> watchSubjectsByClass(int clas) { 
      return  (select(subjects)..where((p)=>p.class_id.equals(clas))).watch(); 
       }
@@ -25,3 +26,5 @@ Future deleteSubject(Insertable<Subject> subject) => delete(subjects).delete(sub
 
 
  }
+
+

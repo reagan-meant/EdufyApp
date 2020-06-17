@@ -1,12 +1,8 @@
 import 'package:edufy/bloc/level/level_bloc.dart';
-import 'package:edufy/data/models/Levels.dart';
+import 'package:edufy/ui/Subjects.dart';
 import 'package:edufy/data/moor_db.dart';
-import 'package:edufy/subjectList.dart';
-import 'package:edufy/ui/Login.dart';
-import 'package:edufy/ui/Paper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClassPage extends StatefulWidget{
   @override
@@ -43,7 +39,7 @@ class ClassPageState extends State<ClassPage>{
 
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (_) => SubjectPage(),
-                      settings: RouteSettings(arguments: classes[index],)
+                      settings: RouteSettings(arguments: classes[index].class_id,)
                       
                       ));
                       },

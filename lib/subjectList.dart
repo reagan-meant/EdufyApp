@@ -9,12 +9,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SubjectPage extends StatefulWidget {
+class SubjectPages extends StatefulWidget {
   @override
   _subjectListState createState() => _subjectListState();
 }
 
-class _subjectListState extends State<SubjectPage> {
+class _subjectListState extends State<SubjectPages> {
   @override
   void initState() {
     super.initState();

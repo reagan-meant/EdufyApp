@@ -33,7 +33,7 @@ class SubjectPageState extends State<SubjectPage> {
                   return Card(
                     child: ListTile(
                       onTap: () {
-                        Map data = {"subjectId":subjects[index],"classId":classId}
+                        Map data = {"subjectId":subjects[index].subject_id,"classId":classId};
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (_) => PaperPage(),
                           settings: RouteSettings(arguments: data,)

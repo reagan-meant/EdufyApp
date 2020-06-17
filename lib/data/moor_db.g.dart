@@ -14,6 +14,7 @@ class Question extends DataClass implements Insertable<Question> {
   final int term_id;
   final int correct_option;
   final int answer_id;
+  final int paper_number;
   final int subject_id;
   final int answered;
   final int times_correct;
@@ -25,6 +26,7 @@ class Question extends DataClass implements Insertable<Question> {
       @required this.term_id,
       @required this.correct_option,
       @required this.answer_id,
+      @required this.paper_number,
       @required this.subject_id,
       @required this.answered,
       @required this.times_correct,
@@ -47,6 +49,8 @@ class Question extends DataClass implements Insertable<Question> {
           .mapFromDatabaseResponse(data['${effectivePrefix}correct_option']),
       answer_id:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}answer_id']),
+      paper_number: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}paper_number']),
       subject_id:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}subject_id']),
       answered:
@@ -66,6 +70,7 @@ class Question extends DataClass implements Insertable<Question> {
       term_id: serializer.fromJson<int>(json['term_id']),
       correct_option: serializer.fromJson<int>(json['correct_option']),
       answer_id: serializer.fromJson<int>(json['answer_id']),
+      paper_number: serializer.fromJson<int>(json['paper_number']),
       subject_id: serializer.fromJson<int>(json['subject_id']),
       answered: serializer.fromJson<int>(json['answered']),
       times_correct: serializer.fromJson<int>(json['times_correct']),
@@ -82,6 +87,7 @@ class Question extends DataClass implements Insertable<Question> {
       'term_id': serializer.toJson<int>(term_id),
       'correct_option': serializer.toJson<int>(correct_option),
       'answer_id': serializer.toJson<int>(answer_id),
+      'paper_number': serializer.toJson<int>(paper_number),
       'subject_id': serializer.toJson<int>(subject_id),
       'answered': serializer.toJson<int>(answered),
       'times_correct': serializer.toJson<int>(times_correct),
@@ -110,6 +116,9 @@ class Question extends DataClass implements Insertable<Question> {
       answer_id: answer_id == null && nullToAbsent
           ? const Value.absent()
           : Value(answer_id),
+      paper_number: paper_number == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paper_number),
       subject_id: subject_id == null && nullToAbsent
           ? const Value.absent()
           : Value(subject_id),
@@ -132,6 +141,7 @@ class Question extends DataClass implements Insertable<Question> {
           int term_id,
           int correct_option,
           int answer_id,
+          int paper_number,
           int subject_id,
           int answered,
           int times_correct,
@@ -143,6 +153,7 @@ class Question extends DataClass implements Insertable<Question> {
         term_id: term_id ?? this.term_id,
         correct_option: correct_option ?? this.correct_option,
         answer_id: answer_id ?? this.answer_id,
+        paper_number: paper_number ?? this.paper_number,
         subject_id: subject_id ?? this.subject_id,
         answered: answered ?? this.answered,
         times_correct: times_correct ?? this.times_correct,
@@ -157,6 +168,7 @@ class Question extends DataClass implements Insertable<Question> {
           ..write('term_id: $term_id, ')
           ..write('correct_option: $correct_option, ')
           ..write('answer_id: $answer_id, ')
+          ..write('paper_number: $paper_number, ')
           ..write('subject_id: $subject_id, ')
           ..write('answered: $answered, ')
           ..write('times_correct: $times_correct, ')
@@ -179,11 +191,13 @@ class Question extends DataClass implements Insertable<Question> {
                       $mrjc(
                           answer_id.hashCode,
                           $mrjc(
-                              subject_id.hashCode,
+                              paper_number.hashCode,
                               $mrjc(
-                                  answered.hashCode,
-                                  $mrjc(times_correct.hashCode,
-                                      times_wrong.hashCode))))))))));
+                                  subject_id.hashCode,
+                                  $mrjc(
+                                      answered.hashCode,
+                                      $mrjc(times_correct.hashCode,
+                                          times_wrong.hashCode)))))))))));
   @override
   bool operator ==(other) =>
       identical(this, other) ||
@@ -194,6 +208,7 @@ class Question extends DataClass implements Insertable<Question> {
           other.term_id == term_id &&
           other.correct_option == correct_option &&
           other.answer_id == answer_id &&
+          other.paper_number == paper_number &&
           other.subject_id == subject_id &&
           other.answered == answered &&
           other.times_correct == times_correct &&
@@ -207,6 +222,7 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
   final Value<int> term_id;
   final Value<int> correct_option;
   final Value<int> answer_id;
+  final Value<int> paper_number;
   final Value<int> subject_id;
   final Value<int> answered;
   final Value<int> times_correct;
@@ -218,6 +234,7 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
     this.term_id = const Value.absent(),
     this.correct_option = const Value.absent(),
     this.answer_id = const Value.absent(),
+    this.paper_number = const Value.absent(),
     this.subject_id = const Value.absent(),
     this.answered = const Value.absent(),
     this.times_correct = const Value.absent(),
@@ -230,6 +247,7 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
       Value<int> term_id,
       Value<int> correct_option,
       Value<int> answer_id,
+      Value<int> paper_number,
       Value<int> subject_id,
       Value<int> answered,
       Value<int> times_correct,
@@ -241,6 +259,7 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
       term_id: term_id ?? this.term_id,
       correct_option: correct_option ?? this.correct_option,
       answer_id: answer_id ?? this.answer_id,
+      paper_number: paper_number ?? this.paper_number,
       subject_id: subject_id ?? this.subject_id,
       answered: answered ?? this.answered,
       times_correct: times_correct ?? this.times_correct,
@@ -325,6 +344,20 @@ class $QuestionsTable extends Questions
     );
   }
 
+  final VerificationMeta _paper_numberMeta =
+      const VerificationMeta('paper_number');
+  GeneratedIntColumn _paper_number;
+  @override
+  GeneratedIntColumn get paper_number =>
+      _paper_number ??= _constructPaperNumber();
+  GeneratedIntColumn _constructPaperNumber() {
+    return GeneratedIntColumn(
+      'paper_number',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _subject_idMeta = const VerificationMeta('subject_id');
   GeneratedIntColumn _subject_id;
   @override
@@ -384,6 +417,7 @@ class $QuestionsTable extends Questions
         term_id,
         correct_option,
         answer_id,
+        paper_number,
         subject_id,
         answered,
         times_correct,
@@ -438,6 +472,14 @@ class $QuestionsTable extends Questions
           answer_id.isAcceptableValue(d.answer_id.value, _answer_idMeta));
     } else if (answer_id.isRequired && isInserting) {
       context.missing(_answer_idMeta);
+    }
+    if (d.paper_number.present) {
+      context.handle(
+          _paper_numberMeta,
+          paper_number.isAcceptableValue(
+              d.paper_number.value, _paper_numberMeta));
+    } else if (paper_number.isRequired && isInserting) {
+      context.missing(_paper_numberMeta);
     }
     if (d.subject_id.present) {
       context.handle(_subject_idMeta,
@@ -497,6 +539,9 @@ class $QuestionsTable extends Questions
     }
     if (d.answer_id.present) {
       map['answer_id'] = Variable<int, IntType>(d.answer_id.value);
+    }
+    if (d.paper_number.present) {
+      map['paper_number'] = Variable<int, IntType>(d.paper_number.value);
     }
     if (d.subject_id.present) {
       map['subject_id'] = Variable<int, IntType>(d.subject_id.value);

@@ -30,7 +30,7 @@ class Login extends StatelessWidget {
                 onSuccess: (context, state) {
                   LoadingDialog.hide(context);
                   Map data1 ={"name":"jean","sex":"female"};
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => LevelPage(),
                       settings: RouteSettings(
               arguments: data1,

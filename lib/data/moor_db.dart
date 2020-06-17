@@ -49,10 +49,10 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase()
       // Specify the location of the database file
       : super((FlutterQueryExecutor.inDatabaseFolder(
-          path: 'kakeeto.sqlite',
+          path: 'natuu.sqlite',
           singleInstance: true,
           creator: (file) async {
-            final content = await rootBundle.load('kakeeto.sqlite');
+            final content = await rootBundle.load('natuu.sqlite');
             await file.writeAsBytes(content.buffer.asUint8List());
           },
           // Good for debugging - prints SQL in the console
