@@ -19,7 +19,10 @@ class StudentDao extends DatabaseAccessor<AppDatabase> with _$StudentDaoMixin {
 Future updateStudent(Insertable<Student> student) => update(students).replace(student);
 Future deleteStudent(Insertable<Student> student) => delete(students).delete(student);
 
-Future<List<Student>> finduserByUsername(String username) {
+Future<List<Student>> findStudetByUsername(String username) {
   return (select(students)..where((student) => student.student_username.equals(username))).get();
+}
+Future<List<Student>> findStudentByUsernameAndPassword(String username,String password) {
+  return (select(students)..where((student) => student.student_username.equals(username))..where((student) => student.student_password.equals(password))).get();
 }
 }

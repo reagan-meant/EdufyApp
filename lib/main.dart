@@ -1,4 +1,4 @@
-import 'package:edufy/ui/registrationForm.dart';
+import 'package:edufy/ui/Welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Application',
       debugShowCheckedModeBanner: false,
-      home: LoginForm(),
+      home: WelcomeScreen(),
     );
   }
 }

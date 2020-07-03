@@ -46,15 +46,17 @@ part 'moor_db.g.dart';
 //StudentDao,ClassesDao,MarksDao,SubjectsDao,MarksDao,QuestionsDao,AnswersDao
 // _$AppDatabase is the name of the generated class
 class AppDatabase extends _$AppDatabase {
-  AppDatabase()
+  AppDatabase(String path)
       // Specify the location of the database file
       : super((FlutterQueryExecutor.inDatabaseFolder(
-          path: 'musa.sqlite',
+          path: path,
           singleInstance: true,
-          creator: (file) async {
+            creator: (file) async {
             final content = await rootBundle.load('musa.sqlite');
             await file.writeAsBytes(content.buffer.asUint8List());
-          },
+            //file.renameSync('estafi.sqlite');
+
+          },  
           // Good for debugging - prints SQL in the console
           logStatements: true,
         )));
@@ -63,4 +65,5 @@ class AppDatabase extends _$AppDatabase {
   // Migrations will be covered in the next part.
   @override
   int get schemaVersion => 1;
+
 }
