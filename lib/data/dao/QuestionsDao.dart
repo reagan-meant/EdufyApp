@@ -37,6 +37,9 @@ class QuestionDao extends DatabaseAccessor<AppDatabase>
       into(questions).insert(question);
   Future updateQuestion(Insertable<Question> question) =>
       update(questions).replace(question);
+      /* 
+  Future updateAnsweredQuestion(Int  answered, int options) =>
+      update(questions.answered).replace(answered); */
   Future deleteQuestion(Insertable<Question> question) =>
       delete(questions).delete(question);
 }

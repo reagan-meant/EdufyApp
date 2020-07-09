@@ -161,7 +161,9 @@ class Body extends StatelessWidget {
                         });
 
                         Response response = await dio.get(
-                          "http://10.0.2.2/officialedufy/app/flutter_utils/checkusername.php",
+                          "http://192.168.84.17/officialedufy/app/flutter_utils/checkusername.php",
+                          // "http://10.0.2.2/officialedufy/app/flutter_utils/checkusername.php",
+
                           queryParameters: {
                             "username": username,
                             "password": password
@@ -170,7 +172,10 @@ class Body extends StatelessWidget {
                             responseType: ResponseType.plain,
                           ), */
                         );
-
+                        /* 
+String jsonsDataString = response.toString();
+final jsonData = jsonDecode(jsonsDataString);
+print(jsonData['present']); */
                         String A = response.data['present'] as String;
 
                         if ((A.compareTo("true")) == 0) {
@@ -194,7 +199,10 @@ class Body extends StatelessWidget {
                           LoadingDialog.hide(context);
 
                           dio.post(
-                            "http://10.0.2.2/officialedufy/app/flutter_utils/database.php",
+                                                      
+                            "http://192.168.84.17/officialedufy/app/flutter_utils/database.php",
+
+                            //"http://10.0.2.2/officialedufy/app/flutter_utils/database.php",
                             data: formData,
                             options: Options(
                                 //followRedirects: false,
@@ -218,6 +226,8 @@ class Body extends StatelessWidget {
                             ),
                           ));
                         }
+
+
                       }
                     },
                   ),

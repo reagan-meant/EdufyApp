@@ -7,7 +7,7 @@ class Students extends Table {
   // be inserted into the database and an exception will be thrown.
   TextColumn get student_fname => text().withLength(min: 1, max: 255)();
   TextColumn get student_lname => text().withLength(min: 1, max: 255)();
-  TextColumn get student_mname => text().withLength(min: 1, max: 255)();
+  TextColumn get student_mname => text()();
   TextColumn get student_email => text().withLength(min: 1, max: 255)();
   TextColumn get student_username => text().withLength(min: 1, max: 255)();
   TextColumn get student_password => text().withLength(min: 1, max: 255)();

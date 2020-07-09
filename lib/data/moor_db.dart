@@ -52,7 +52,7 @@ class AppDatabase extends _$AppDatabase {
           path: path,
           singleInstance: true,
             creator: (file) async {
-            final content = await rootBundle.load('musa.sqlite');
+            final content = await rootBundle.load('cassy.sqlite');
             await file.writeAsBytes(content.buffer.asUint8List());
             //file.renameSync('estafi.sqlite');
 

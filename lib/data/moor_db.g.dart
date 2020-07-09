@@ -11,6 +11,8 @@ class Question extends DataClass implements Insertable<Question> {
   final int question_id;
   final String question_text;
   final int class_id;
+  final String tag;
+  final int images;
   final int term_id;
   final int correct_option;
   final int answer_id;
@@ -23,6 +25,8 @@ class Question extends DataClass implements Insertable<Question> {
       {@required this.question_id,
       @required this.question_text,
       @required this.class_id,
+      @required this.tag,
+      @required this.images,
       @required this.term_id,
       @required this.correct_option,
       @required this.answer_id,
@@ -43,6 +47,8 @@ class Question extends DataClass implements Insertable<Question> {
           .mapFromDatabaseResponse(data['${effectivePrefix}question_text']),
       class_id:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}class_id']),
+      tag: stringType.mapFromDatabaseResponse(data['${effectivePrefix}tag']),
+      images: intType.mapFromDatabaseResponse(data['${effectivePrefix}images']),
       term_id:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}term_id']),
       correct_option: intType
@@ -67,6 +73,8 @@ class Question extends DataClass implements Insertable<Question> {
       question_id: serializer.fromJson<int>(json['question_id']),
       question_text: serializer.fromJson<String>(json['question_text']),
       class_id: serializer.fromJson<int>(json['class_id']),
+      tag: serializer.fromJson<String>(json['tag']),
+      images: serializer.fromJson<int>(json['images']),
       term_id: serializer.fromJson<int>(json['term_id']),
       correct_option: serializer.fromJson<int>(json['correct_option']),
       answer_id: serializer.fromJson<int>(json['answer_id']),
@@ -84,6 +92,8 @@ class Question extends DataClass implements Insertable<Question> {
       'question_id': serializer.toJson<int>(question_id),
       'question_text': serializer.toJson<String>(question_text),
       'class_id': serializer.toJson<int>(class_id),
+      'tag': serializer.toJson<String>(tag),
+      'images': serializer.toJson<int>(images),
       'term_id': serializer.toJson<int>(term_id),
       'correct_option': serializer.toJson<int>(correct_option),
       'answer_id': serializer.toJson<int>(answer_id),
@@ -107,6 +117,9 @@ class Question extends DataClass implements Insertable<Question> {
       class_id: class_id == null && nullToAbsent
           ? const Value.absent()
           : Value(class_id),
+      tag: tag == null && nullToAbsent ? const Value.absent() : Value(tag),
+      images:
+          images == null && nullToAbsent ? const Value.absent() : Value(images),
       term_id: term_id == null && nullToAbsent
           ? const Value.absent()
           : Value(term_id),
@@ -138,6 +151,8 @@ class Question extends DataClass implements Insertable<Question> {
           {int question_id,
           String question_text,
           int class_id,
+          String tag,
+          int images,
           int term_id,
           int correct_option,
           int answer_id,
@@ -150,6 +165,8 @@ class Question extends DataClass implements Insertable<Question> {
         question_id: question_id ?? this.question_id,
         question_text: question_text ?? this.question_text,
         class_id: class_id ?? this.class_id,
+        tag: tag ?? this.tag,
+        images: images ?? this.images,
         term_id: term_id ?? this.term_id,
         correct_option: correct_option ?? this.correct_option,
         answer_id: answer_id ?? this.answer_id,
@@ -165,6 +182,8 @@ class Question extends DataClass implements Insertable<Question> {
           ..write('question_id: $question_id, ')
           ..write('question_text: $question_text, ')
           ..write('class_id: $class_id, ')
+          ..write('tag: $tag, ')
+          ..write('images: $images, ')
           ..write('term_id: $term_id, ')
           ..write('correct_option: $correct_option, ')
           ..write('answer_id: $answer_id, ')
@@ -185,19 +204,25 @@ class Question extends DataClass implements Insertable<Question> {
           $mrjc(
               class_id.hashCode,
               $mrjc(
-                  term_id.hashCode,
+                  tag.hashCode,
                   $mrjc(
-                      correct_option.hashCode,
+                      images.hashCode,
                       $mrjc(
-                          answer_id.hashCode,
+                          term_id.hashCode,
                           $mrjc(
-                              paper_number.hashCode,
+                              correct_option.hashCode,
                               $mrjc(
-                                  subject_id.hashCode,
+                                  answer_id.hashCode,
                                   $mrjc(
-                                      answered.hashCode,
-                                      $mrjc(times_correct.hashCode,
-                                          times_wrong.hashCode)))))))))));
+                                      paper_number.hashCode,
+                                      $mrjc(
+                                          subject_id.hashCode,
+                                          $mrjc(
+                                              answered.hashCode,
+                                              $mrjc(
+                                                  times_correct.hashCode,
+                                                  times_wrong
+                                                      .hashCode)))))))))))));
   @override
   bool operator ==(other) =>
       identical(this, other) ||
@@ -205,6 +230,8 @@ class Question extends DataClass implements Insertable<Question> {
           other.question_id == question_id &&
           other.question_text == question_text &&
           other.class_id == class_id &&
+          other.tag == tag &&
+          other.images == images &&
           other.term_id == term_id &&
           other.correct_option == correct_option &&
           other.answer_id == answer_id &&
@@ -219,6 +246,8 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
   final Value<int> question_id;
   final Value<String> question_text;
   final Value<int> class_id;
+  final Value<String> tag;
+  final Value<int> images;
   final Value<int> term_id;
   final Value<int> correct_option;
   final Value<int> answer_id;
@@ -231,6 +260,8 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
     this.question_id = const Value.absent(),
     this.question_text = const Value.absent(),
     this.class_id = const Value.absent(),
+    this.tag = const Value.absent(),
+    this.images = const Value.absent(),
     this.term_id = const Value.absent(),
     this.correct_option = const Value.absent(),
     this.answer_id = const Value.absent(),
@@ -244,6 +275,8 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
       {Value<int> question_id,
       Value<String> question_text,
       Value<int> class_id,
+      Value<String> tag,
+      Value<int> images,
       Value<int> term_id,
       Value<int> correct_option,
       Value<int> answer_id,
@@ -256,6 +289,8 @@ class QuestionsCompanion extends UpdateCompanion<Question> {
       question_id: question_id ?? this.question_id,
       question_text: question_text ?? this.question_text,
       class_id: class_id ?? this.class_id,
+      tag: tag ?? this.tag,
+      images: images ?? this.images,
       term_id: term_id ?? this.term_id,
       correct_option: correct_option ?? this.correct_option,
       answer_id: answer_id ?? this.answer_id,
@@ -301,6 +336,27 @@ class $QuestionsTable extends Questions
   GeneratedIntColumn _constructClassId() {
     return GeneratedIntColumn(
       'class_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _tagMeta = const VerificationMeta('tag');
+  GeneratedTextColumn _tag;
+  @override
+  GeneratedTextColumn get tag => _tag ??= _constructTag();
+  GeneratedTextColumn _constructTag() {
+    return GeneratedTextColumn('tag', $tableName, false,
+        minTextLength: 1, maxTextLength: 255);
+  }
+
+  final VerificationMeta _imagesMeta = const VerificationMeta('images');
+  GeneratedIntColumn _images;
+  @override
+  GeneratedIntColumn get images => _images ??= _constructImages();
+  GeneratedIntColumn _constructImages() {
+    return GeneratedIntColumn(
+      'images',
       $tableName,
       false,
     );
@@ -414,6 +470,8 @@ class $QuestionsTable extends Questions
         question_id,
         question_text,
         class_id,
+        tag,
+        images,
         term_id,
         correct_option,
         answer_id,
@@ -452,6 +510,17 @@ class $QuestionsTable extends Questions
           class_id.isAcceptableValue(d.class_id.value, _class_idMeta));
     } else if (class_id.isRequired && isInserting) {
       context.missing(_class_idMeta);
+    }
+    if (d.tag.present) {
+      context.handle(_tagMeta, tag.isAcceptableValue(d.tag.value, _tagMeta));
+    } else if (tag.isRequired && isInserting) {
+      context.missing(_tagMeta);
+    }
+    if (d.images.present) {
+      context.handle(
+          _imagesMeta, images.isAcceptableValue(d.images.value, _imagesMeta));
+    } else if (images.isRequired && isInserting) {
+      context.missing(_imagesMeta);
     }
     if (d.term_id.present) {
       context.handle(_term_idMeta,
@@ -530,6 +599,12 @@ class $QuestionsTable extends Questions
     }
     if (d.class_id.present) {
       map['class_id'] = Variable<int, IntType>(d.class_id.value);
+    }
+    if (d.tag.present) {
+      map['tag'] = Variable<String, StringType>(d.tag.value);
+    }
+    if (d.images.present) {
+      map['images'] = Variable<int, IntType>(d.images.value);
     }
     if (d.term_id.present) {
       map['term_id'] = Variable<int, IntType>(d.term_id.value);
@@ -1083,8 +1158,11 @@ class $StudentsTable extends Students with TableInfo<$StudentsTable, Student> {
   GeneratedTextColumn get student_mname =>
       _student_mname ??= _constructStudentMname();
   GeneratedTextColumn _constructStudentMname() {
-    return GeneratedTextColumn('student_mname', $tableName, false,
-        minTextLength: 1, maxTextLength: 255);
+    return GeneratedTextColumn(
+      'student_mname',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _student_emailMeta =
